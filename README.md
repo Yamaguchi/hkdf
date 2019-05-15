@@ -9,7 +9,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'hkdf'
+gem 'hkdf', github: 'Yamaguchi/hkdf/'
 ```
 
 And then execute:
@@ -18,7 +18,8 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install hkdf
+    $ gem install specific_install
+    $ gem specific_install -l 'https://github.com/Yamaguchi/hkdf.git'
 
 ## Usage
 
