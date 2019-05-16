@@ -57,10 +57,6 @@ end
 ```
 
     root@5cd510b346b2:~/hkdf# ./bin/console
-    irb(main):001:0> require "ruby_hmac"
-    => true
-    irb(main):002:0> require "hmac-sha2"
-    => true
     irb(main):003:0> ikm = ["0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b"].pack("H*")
     => "\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v"
     irb(main):004:0> salt = ["000102030405060708090a0b0c"].pack("H*")
