@@ -25,6 +25,8 @@ Or install it yourself as:
 
 ### Use OpenSSL implementation
 
+Specify 'hash' option ("sha256", "sha384", "sha512", "ripemd", ...)
+
     root@5cd510b346b2:~/hkdf# ./bin/console
     irb(main):001:0> ikm = ["0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b"].pack("H*")
     => "\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v\v"
@@ -40,6 +42,19 @@ Or install it yourself as:
 ### Use Custom HMAC function
 
 You can use any hmac function (such as blake2b...), instead of functions supported by openssl.
+Example of black2b is following(using rbnacl and ruby_hmac library):
+
+```ruby
+require "rbnacl"
+require "ruby_hmac"
+
+class Blake2bHMAC < HMAC::Base
+  def initialize(key = nil)
+    super(RbNaCl::Hash::Blake2b, 128, 64, key)
+  end
+  public_class_method :new, :digest, :hexdigest
+end
+```
 
     root@5cd510b346b2:~/hkdf# ./bin/console
     irb(main):001:0> require "ruby_hmac"
@@ -54,8 +69,8 @@ You can use any hmac function (such as blake2b...), instead of functions support
     => "\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF7\xF8\xF9"
     irb(main):006:0> length = 42
     => 42
-    irb(main):007:0> Hkdf.hkdf(ikm, salt: salt, info: info, length: length) { |key, data| HMAC::SHA256.new(key).update(data).digest }
-    => "<\xB2_%\xFA\xAC\xD5z\x90COd\xD06/*--\n\x90\xCF\x1AZL]\xB0-V\xEC\xC4\xC5\xBF4\x00r\b\xD5\xB8\x87\x18Xe"
+    irb(main):007:0>  Hkdf.hkdf(ikm, salt: salt, info: info, length: length) { |key, data| Blake2bHMAC.new(key).update(data).digest }
+    => "\x88\x15\xE1\xA8[^\x90\xE6\x17C#\xFD\xD1\x80$\x88\x87\xA7\x13\x8A\xF6\xDC\\\x83 \xFD\xE2\x1A`\xA0x\x80\x82g\xD6\xA4\ej\x93\x8D{0"
 
 ## Development
 
